@@ -39,10 +39,23 @@ class Message:
         return max(dict_t.values())
 
     def count_letter(self):
-        msg = {}
+        dict_m={}
         for message in self.data:
-            pass
+            dict_m[message["from"]] = 0
+        for message in self.data:
+            dict_m[message["from"]] += len(message["text"])
+        return dict_m
+    def coung_avg_message(self):
+        count_message_char = self.count_letter()
+        count_message_person = self.count_person_message()
+        dict_y={}
+        for person, char_count in count_message_char.items():
+            message_count = count_message_person[person]
+            avg = f"{char_count / message_count:.1f}"
+            dict_y[person] = avg
+        return dict_y
 
+    
 path_f = "chat.json"
 message = Message(path_f)
 data = message.open_json()
@@ -55,3 +68,6 @@ print(percentage)
 
 busy_hour = message.find_busiest_hour()
 print(busy_hour)
+
+print(message.count_letter())
+print(message.coung_avg_message())
